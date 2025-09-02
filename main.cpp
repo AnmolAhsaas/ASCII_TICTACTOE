@@ -178,14 +178,16 @@ public:
                 if (board[row][col] != -1)
                     continue;
                 vector<int> tmpHandlePoints(3, 0);
-                tmpHandlePoints[rowMap[0][row]]++;
-                tmpHandlePoints[colMap[0][col]]++;
+                if(rowMap[0][row])
+                    tmpHandlePoints[rowMap[0][row]]++;
+                if(rowMap[0][col])
+                    tmpHandlePoints[colMap[0][col]]++;
 
-                if (row - col == 0)
+                if (row - col == 0 && diagMap[0][row - col])
                     tmpHandlePoints[diagMap[0][row - col]]++;
-                if (row + col == 2)
+                if (row + col == 2 && diagMap[0][row + col])
                     tmpHandlePoints[diagMap[0][row + col]]++;
-
+                
                 int i = 2;
                 while (i >= 0 && handlePoints[i] == tmpHandlePoints[i])
                     i--;
@@ -194,6 +196,11 @@ public:
                     handlePoints = tmpHandlePoints;
                     markPos[0] = row;
                     markPos[1] = col;
+                }else if(i == -1){ 
+                    if(rand()%2){
+                        markPos[0] = row;
+                        markPos[1] = col;
+                    }
                 }
             }
         }
@@ -348,7 +355,7 @@ public:
     }
 };
 int main()
-{
+{   srand(time(0));
     TicTacToe *game = new TicTacToe();
     return 0;
 }
